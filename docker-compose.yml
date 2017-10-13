@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  db:
+    image: mariadb
+    volumes:
+      - ./.db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    container_name: c_wpsvn_db
+
+  wpsvn:
+    build: .docker/wordpress
+    image: wpsvn
+    depends_on:
+      - db
+    ports:
+      - 80:80
+    volumes:
+      - ./wordpress-svn:/var/www/html
+    container_name: c_wpsvn
+
+  wpsvn_nodejs:
+    build: .docker/nodejs
+    image: wpsvn_nodejs
+    depends_on:
+      - wpsvn
+    ports:
+      - 3000:3000
+    volumes:
+      - ./wordpress-svn:/src
+    container_name: c_wpsvn_nodejs

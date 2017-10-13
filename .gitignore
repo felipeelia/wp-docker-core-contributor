@@ -1,0 +1,8 @@
+.db_data
+wordpress-svn
+
+# Files related to applying patches
+*.rej
+*.orig
+*.patch
+*.diff
