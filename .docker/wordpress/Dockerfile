@@ -34,6 +34,9 @@ RUN curl -o /usr/local/bin/wp-cli.phar https://raw.githubusercontent.com/wp-cli/
 COPY wp-su.sh /usr/local/bin/wp
 RUN chmod +x /usr/local/bin/wp-cli.phar /usr/local/bin/wp
 
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
 WORKDIR /var/www/html
 VOLUME /var/www/html
 
@@ -42,6 +45,5 @@ RUN svn co https://develop.svn.wordpress.org/trunk/ /var/www/trunk/ \
 	&& chown -R www-data:www-data .
 
 EXPOSE 80 443
-COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["apache2-foreground"]

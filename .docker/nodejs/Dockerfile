@@ -9,5 +9,7 @@ VOLUME /src
 EXPOSE 3000
 
 COPY wait-for-it.sh /usr/local/bin/wait-for-it
-COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
+RUN chmod +x /usr/local/bin/wait-for-it
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
